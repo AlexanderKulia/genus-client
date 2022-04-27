@@ -1,9 +1,9 @@
 import { NextPage } from "next";
 import { useRouter } from "next/router";
 import { FunctionComponent, useEffect } from "react";
-import { useAuth } from "../contexts/AuthContext";
+import { useAuth } from "../../contexts/AuthContext";
 
-const AuthGuard: FunctionComponent = ({ children }) => {
+export const AuthGuard: FunctionComponent = ({ children }) => {
   const { currentUser } = useAuth();
   const router = useRouter();
 
@@ -13,5 +13,3 @@ const AuthGuard: FunctionComponent = ({ children }) => {
 
   return <>{currentUser && children}</>;
 };
-
-export default AuthGuard;

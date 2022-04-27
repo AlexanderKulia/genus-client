@@ -4,6 +4,7 @@ enum Language {
   "de",
 }
 
+//TODO check interface
 export interface Word {
   id: number;
   text: string;

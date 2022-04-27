@@ -1,21 +1,14 @@
 import { CloseIcon, HamburgerIcon } from "@chakra-ui/icons";
 import {
-  Avatar,
   Box,
-  Button,
   Flex,
   HStack,
   IconButton,
   Link,
-  Menu,
-  MenuButton,
-  MenuItem,
-  MenuList,
   Stack,
   useDisclosure,
 } from "@chakra-ui/react";
 import NextLink from "next/link";
-import { FunctionComponent } from "react";
 import { useAuth } from "../contexts/AuthContext";
 
 const links = [
@@ -29,7 +22,7 @@ const links = [
 
 export const NAVBAR_HEIGHT = 64;
 
-const NavBar: FunctionComponent = () => {
+export const NavBar = () => {
   const { isOpen, onOpen, onClose } = useDisclosure();
   const { currentUser, logOut } = useAuth();
 
@@ -55,33 +48,33 @@ const NavBar: FunctionComponent = () => {
   };
 
   return (
-    <Box px={4} bg="gray.50">
-      <Flex
-        h={NAVBAR_HEIGHT / 4}
-        alignItems="center"
-        justifyContent={{ md: "center", base: "space-between" }}
-      >
-        <IconButton
-          size="md"
-          icon={isOpen ? <CloseIcon /> : <HamburgerIcon />}
-          aria-label="Open Menu"
-          display={{ md: "none" }}
-          onClick={isOpen ? onClose : onOpen}
-        />
-        <HStack as="nav" spacing={8} display={{ base: "none", md: "flex" }}>
-          {renderNextLinks()}
-        </HStack>
-      </Flex>
-
-      {isOpen ? (
-        <Box pb={4} display={{ md: "none" }}>
-          <Stack as={"nav"} spacing={4}>
+    <>
+      <Box px={4} bg="gray.100" pos="fixed" w="100%" zIndex={200} as="header">
+        <Flex
+          h={NAVBAR_HEIGHT / 4}
+          alignItems="center"
+          justifyContent={{ md: "center", base: "space-between" }}
+        >
+          <IconButton
+            size="md"
+            icon={isOpen ? <CloseIcon /> : <HamburgerIcon />}
+            aria-label="Open Menu"
+            display={{ md: "none" }}
+            onClick={isOpen ? onClose : onOpen}
+          />
+          <HStack as="nav" spacing={8} display={{ base: "none", md: "flex" }}>
             {renderNextLinks()}
-          </Stack>
-        </Box>
-      ) : null}
-    </Box>
+          </HStack>
+        </Flex>
+        {isOpen ? (
+          <Box pb={4} display={{ md: "none" }}>
+            <Stack as={"nav"} spacing={4}>
+              {renderNextLinks()}
+            </Stack>
+          </Box>
+        ) : null}
+      </Box>
+      <Box h={`${NAVBAR_HEIGHT}px`} />
+    </>
   );
 };
-
-export default NavBar;

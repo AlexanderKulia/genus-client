@@ -1,36 +1,44 @@
 import { Box, Link, Text } from "@chakra-ui/react";
 import NextLink from "next/link";
-import { FunctionComponent } from "react";
-import { Word } from "../services/api/Search";
+import { useQuery } from "react-query";
+import { SearchApi } from "../services/api/Search";
+import { CSpinner } from "./utils/CSpinner";
 
 interface DisplayProps {
-  word: Word | undefined;
-  success: boolean;
+  word: string;
 }
 
-const Display: FunctionComponent<DisplayProps> = ({ word, success }) => {
-  if (!word || !success)
-    return (
-      <Text fontSize="6xl" mb={40}>
-        Not found. Try a different word
-      </Text>
-    );
+export const Display = ({ word }: DisplayProps) => {
+  const { data, isSuccess, isLoading } = useQuery(
+    ["word", word],
+    () => SearchApi.findWord(word),
+    { select: (res) => res.data, cacheTime: 0 }
+  );
 
-  const appendGenders = () => {
+  if (isLoading)
     return (
-      (word.m ? "der" : "") +
-      (word.m && (word.f || word.n) ? ", " : "") +
-      (word.f ? "die" : "") +
-      (word.f && word.n ? ", " : "") +
-      (word.n ? "das" : "") +
+      <Box h="90px" mb={10}>
+        <CSpinner />
+      </Box>
+    );
+  if (!isSuccess)
+    return <Text fontSize="6xl">Not found. Try a different word</Text>;
+
+  const appendGenera = () => {
+    return (
+      (data.m ? "der" : "") +
+      (data.m && (data.f || data.n) ? ", " : "") +
+      (data.f ? "die" : "") +
+      (data.f && data.n ? ", " : "") +
+      (data.n ? "das" : "") +
       " " +
-      word.text
+      data.text
     );
   };
 
   return (
-    <Box mb={40}>
-      <NextLink href={`${word.wikiUrl}#German`} passHref>
+    <Box mb={10}>
+      <NextLink href={`${data.wikiUrl}#German`} passHref>
         <Link
           _hover={{
             textDecoration: "none",
@@ -38,11 +46,9 @@ const Display: FunctionComponent<DisplayProps> = ({ word, success }) => {
           fontSize="6xl"
           isExternal
         >
-          {appendGenders()}
+          {appendGenera()}
         </Link>
       </NextLink>
     </Box>
   );
 };
-
-export default Display;

@@ -1,9 +1,14 @@
-import { ChakraProvider, Container, extendTheme, Text } from "@chakra-ui/react";
+import { ChakraProvider, Container, extendTheme } from "@chakra-ui/react";
 import type { AppProps } from "next/app";
 import { QueryClient, QueryClientProvider } from "react-query";
-import AuthGuard from "../components/AuthGuard";
-import NavBar, { NAVBAR_HEIGHT } from "../components/NavBar";
+import { ReactQueryDevtools } from "react-query/devtools";
+import { AuthGuard } from "../components/utils/AuthGuard";
 import { AuthProvider, useAuth } from "../contexts/AuthContext";
+import { NavBar, NAVBAR_HEIGHT } from "../layouts/NavBar";
+
+export interface AuthProps {
+  protected: boolean;
+}
 
 const theme = extendTheme({
   styles: {
@@ -28,6 +33,7 @@ const queryClient = new QueryClient();
 const App = ({ Component, pageProps }: AppProps) => {
   return (
     <QueryClientProvider client={queryClient}>
+      <ReactQueryDevtools initialIsOpen={false} />
       <ChakraProvider theme={theme}>
         <AuthProvider>
           <NavBar />
@@ -35,13 +41,14 @@ const App = ({ Component, pageProps }: AppProps) => {
             maxW="container.xl"
             p={0}
             h={`calc(100vh - ${NAVBAR_HEIGHT}px)`}
+            as="main"
           >
-            {pageProps.protected ? (
+            {pageProps.protected === false ? (
+              <Component {...pageProps} />
+            ) : (
               <AuthGuard>
                 <Component {...pageProps} />
               </AuthGuard>
-            ) : (
-              <Component {...pageProps} />
             )}
           </Container>
         </AuthProvider>

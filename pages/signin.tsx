@@ -1,6 +1,5 @@
 import {
   Button,
-  Container,
   Flex,
   FormControl,
   FormErrorMessage,
@@ -8,9 +7,11 @@ import {
   Input,
   useToast,
 } from "@chakra-ui/react";
-import { NextPage } from "next";
+import { GetStaticProps, NextPage } from "next";
+import { useRouter } from "next/router";
 import { useForm } from "react-hook-form";
 import { useAuth } from "../contexts/AuthContext";
+import { AuthProps } from "./_app";
 
 interface FormData {
   email: string;
@@ -24,7 +25,9 @@ const Signin: NextPage = () => {
     formState: { errors, isSubmitting },
   } = useForm<FormData>();
   const toast = useToast();
-  const { signIn } = useAuth();
+  const { signIn, currentUser } = useAuth();
+  const router = useRouter();
+  if (currentUser) router.push("/");
 
   const onSubmit = handleSubmit(async ({ email, password }) => {
     try {
@@ -34,7 +37,7 @@ const Signin: NextPage = () => {
     }
   });
 
-  return (
+  return currentUser ? null : (
     <Flex h="100%" justifyContent="center" alignItems="center">
       <form onSubmit={onSubmit}>
         <FormControl isInvalid={!!errors.email}>
@@ -70,6 +73,14 @@ const Signin: NextPage = () => {
       </form>
     </Flex>
   );
+};
+
+export const getStaticProps: GetStaticProps<AuthProps> = () => {
+  return {
+    props: {
+      protected: false,
+    },
+  };
 };
 
 export default Signin;

@@ -3,16 +3,13 @@ import {
   Flex,
   FormControl,
   FormErrorMessage,
-  FormLabel,
   Input,
-  Text,
+  VStack,
 } from "@chakra-ui/react";
 import type { NextPage } from "next";
 import { useState } from "react";
 import { useForm } from "react-hook-form";
-import { useMutation } from "react-query";
-import Display from "../components/Display";
-import { SearchApi, Word } from "../services/api/Search";
+import { Display } from "../components/Display";
 
 interface FormData {
   word: string;
@@ -23,25 +20,12 @@ const Home: NextPage = () => {
     handleSubmit,
     register,
     formState: { errors, isSubmitting },
+    resetField,
   } = useForm<FormData>();
-  const [word, setWord] = useState<Word>();
-  const [success, setSuccess] = useState<boolean>(false);
-  const [touched, setTouched] = useState<boolean>(false);
-  const mutation = useMutation((word: string) => SearchApi.findWord(word), {
-    onSuccess: (data) => {
-      setWord(data.data);
-      setSuccess(true);
-    },
-    onError: () => {
-      setSuccess(false);
-    },
-    onSettled: () => {
-      setTouched(true);
-    },
-  });
-
+  const [word, setWord] = useState<string>();
   const onSubmit = handleSubmit(({ word }) => {
-    mutation.mutate(word);
+    setWord(word);
+    resetField("word");
   });
 
   return (
@@ -51,24 +35,26 @@ const Home: NextPage = () => {
       alignItems="center"
       direction="column"
     >
-      {touched && <Display word={word} success={success} />}
-      <form onSubmit={onSubmit}>
-        <FormControl isInvalid={!!errors.word}>
-          <FormLabel htmlFor="word">Word</FormLabel>
-          <Input
-            id="word"
-            placeholder="Word"
-            {...register("word", {
-              required: "This field is required",
-            })}
-          />
-          <FormErrorMessage>
-            {errors.word && errors.word.message}
-          </FormErrorMessage>
-        </FormControl>
-        <Button mt={4} isLoading={isSubmitting} type="submit">
-          Submit
-        </Button>
+      {word && <Display word={word} />}
+      <form onSubmit={onSubmit} style={{ width: "30%" }}>
+        <VStack>
+          <FormControl isInvalid={!!errors.word}>
+            <Input
+              id="word"
+              placeholder="Enter word"
+              {...register("word", {
+                required: "This field is required",
+              })}
+              size="lg"
+            />
+            <FormErrorMessage>
+              {errors.word && errors.word.message}
+            </FormErrorMessage>
+          </FormControl>
+          <Button mt={4} isLoading={isSubmitting} type="submit" size="lg">
+            Submit
+          </Button>
+        </VStack>
       </form>
     </Flex>
   );
