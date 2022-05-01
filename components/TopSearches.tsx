@@ -9,8 +9,8 @@ import {
 } from "@chakra-ui/react";
 import { useQuery } from "react-query";
 import { HistoryApi } from "../services/api/History";
-import { NoDataFound } from "./NoDataFound";
 import { CSpinner } from "./utils/CSpinner";
+import { NoDataFound } from "./utils/NoDataFound";
 import { SomethingWentWrong } from "./utils/SomethingWentWrong";
 
 interface TopSearchesProps {

@@ -44,8 +44,9 @@ export const Pagination = ({
         {pageNumber}
       </Box>
     ));
-    if (range[0] !== 1) pages.unshift(<span>...</span>);
-    if (range[range.length - 1] !== pageCount) pages.push(<span>...</span>);
+    if (range[0] !== 1) pages.unshift(<span key="predot">...</span>);
+    if (range[range.length - 1] !== pageCount)
+      pages.push(<span key="postdot">...</span>);
     return [...pages];
   };
 

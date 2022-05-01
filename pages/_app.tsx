@@ -1,5 +1,6 @@
 import { ChakraProvider, Container, extendTheme } from "@chakra-ui/react";
 import type { AppProps } from "next/app";
+import Head from "next/head";
 import { QueryClient, QueryClientProvider } from "react-query";
 import { ReactQueryDevtools } from "react-query/devtools";
 import { AuthGuard } from "../components/utils/AuthGuard";
@@ -28,7 +29,13 @@ const theme = extendTheme({
   },
 });
 
-const queryClient = new QueryClient();
+const queryClient = new QueryClient({
+  defaultOptions: {
+    queries: {
+      refetchOnWindowFocus: false,
+    },
+  },
+});
 
 const App = ({ Component, pageProps }: AppProps) => {
   return (
@@ -36,6 +43,9 @@ const App = ({ Component, pageProps }: AppProps) => {
       <ReactQueryDevtools initialIsOpen={false} />
       <ChakraProvider theme={theme}>
         <AuthProvider>
+          <Head>
+            <title>Genus</title>
+          </Head>
           <NavBar />
           <Container
             maxW="container.xl"

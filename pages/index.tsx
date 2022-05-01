@@ -4,7 +4,6 @@ import {
   FormControl,
   FormErrorMessage,
   Input,
-  VStack,
 } from "@chakra-ui/react";
 import type { NextPage } from "next";
 import { useState } from "react";

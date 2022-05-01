@@ -11,8 +11,11 @@ interface DisplayProps {
 export const Display = ({ word }: DisplayProps) => {
   const { data, isSuccess, isLoading } = useQuery(
     ["word", word],
-    () => SearchApi.findWord(word),
-    { select: (res) => res.data, cacheTime: 0 }
+    () => {
+      console.log("fetching");
+      return SearchApi.findWord(word);
+    },
+    { select: (res) => res.data }
   );
 
   if (isLoading)
