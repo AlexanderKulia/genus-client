@@ -1,12 +1,4 @@
-import {
-  Box,
-  Center,
-  Flex,
-  Radio,
-  RadioGroup,
-  Stack,
-  Text,
-} from "@chakra-ui/react";
+import { Center, Flex, Radio, RadioGroup, Stack, Text } from "@chakra-ui/react";
 import { NextPage } from "next";
 import { useRouter } from "next/router";
 import React, { useState } from "react";
@@ -51,6 +43,19 @@ const New: NextPage = () => {
 
   if (wordsQuery.isLoading) return <CSpinner />;
   if (!wordsQuery.isSuccess) return <SomethingWentWrong />;
+  if (Array.isArray(wordsQuery.data) && wordsQuery.data.length === 0)
+    return (
+      <Flex
+        h="100%"
+        justifyContent="center"
+        alignItems="center"
+        direction="column"
+      >
+        <Text fontSize="2xl">
+          You do not have any failed guesses. Good job!
+        </Text>
+      </Flex>
+    );
 
   const onSubmit = handleSubmit(() => {
     resultsQuery.refetch();
