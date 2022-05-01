@@ -10,6 +10,7 @@ import {
 import { useState } from "react";
 import { useQuery } from "react-query";
 import { HistoryApi } from "../services/api/History";
+import { NoDataFound } from "./NoDataFound";
 import { CSpinner } from "./utils/CSpinner";
 import { Pagination } from "./utils/Pagination";
 import { SomethingWentWrong } from "./utils/SomethingWentWrong";
@@ -30,6 +31,10 @@ export const Searches = () => {
 
   if (query.isLoading) return <CSpinner />;
   if (!query.isSuccess) return <SomethingWentWrong />;
+  if (Array.isArray(query.data.data) && query.data.data.length === 0)
+    return <NoDataFound />;
+
+  console.log(query.data);
 
   const handleSort = (col: string) => {
     if (col === sortBy) {

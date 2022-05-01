@@ -5,7 +5,7 @@ enum Language {
 }
 
 //TODO check interface
-export interface Word {
+export type Word = {
   id: number;
   text: string;
   language: Language;
@@ -14,7 +14,7 @@ export interface Word {
   n: boolean;
   wikiUrl: string;
   createdAt: Date | null;
-}
+};
 
 export const SearchApi = {
   findWord: (word: string) =>

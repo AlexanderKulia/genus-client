@@ -36,26 +36,30 @@ const Home: NextPage = () => {
       direction="column"
     >
       {word && <Display word={word} />}
-      <form onSubmit={onSubmit} style={{ width: "30%" }}>
-        <VStack>
-          <FormControl isInvalid={!!errors.word}>
-            <Input
-              id="word"
-              placeholder="Enter word"
-              {...register("word", {
-                required: "This field is required",
-              })}
-              size="lg"
-            />
-            <FormErrorMessage>
-              {errors.word && errors.word.message}
-            </FormErrorMessage>
-          </FormControl>
-          <Button mt={4} isLoading={isSubmitting} type="submit" size="lg">
-            Submit
-          </Button>
-        </VStack>
-      </form>
+      <FormControl
+        as="form"
+        isInvalid={!!errors.word}
+        onSubmit={onSubmit}
+        w={["90%", "75%", "50%"]}
+        display="flex"
+        flexDirection="column"
+        alignItems="center"
+      >
+        <Input
+          id="word"
+          placeholder="Enter word"
+          {...register("word", {
+            required: "This field is required",
+          })}
+          size="lg"
+        />
+        <FormErrorMessage>
+          {errors.word && errors.word.message}
+        </FormErrorMessage>
+        <Button mt={4} isLoading={isSubmitting} type="submit" size="lg">
+          Submit
+        </Button>
+      </FormControl>
     </Flex>
   );
 };

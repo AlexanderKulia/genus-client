@@ -1,5 +1,5 @@
 import { PResponse } from ".";
-import { post } from "./base";
+import { get } from "./base";
 
 export type Search = {
   id: number;
@@ -21,12 +21,14 @@ export const HistoryApi = {
     sortBy: string;
     sortOrder: string;
   }) =>
-    post<PResponse<Search>>("/history", {
-      page,
-      perPage,
-      sortBy,
-      sortOrder,
+    get<PResponse<Search>>("/history", {
+      params: {
+        page,
+        perPage,
+        sortBy,
+        sortOrder,
+      },
     }),
   getTopSearches: ({ n }: { n: number }) =>
-    post<{ count: number; word: string }[]>("history/top", { n }),
+    get<{ count: number; word: string }[]>("history/top", { params: { n } }),
 };
