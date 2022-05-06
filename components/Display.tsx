@@ -12,7 +12,6 @@ export const Display = ({ word }: DisplayProps) => {
   const { data, isSuccess, isLoading } = useQuery(
     ["word", word],
     () => {
-      console.log("fetching");
       return SearchApi.findWord(word);
     },
     { select: (res) => res.data }
