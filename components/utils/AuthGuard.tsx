@@ -1,4 +1,3 @@
-import { NextPage } from "next";
 import { useRouter } from "next/router";
 import { FunctionComponent, useEffect } from "react";
 import { useAuth } from "../../contexts/AuthContext";

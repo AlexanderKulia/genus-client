@@ -8,6 +8,7 @@ import {
   useToast,
 } from "@chakra-ui/react";
 import { GetStaticProps, NextPage } from "next";
+import { useRouter } from "next/router";
 import { useForm } from "react-hook-form";
 import { useAuth } from "../contexts/AuthContext";
 import { AuthProps } from "./_app";
@@ -30,6 +31,8 @@ const Signup: NextPage = () => {
   } = useForm<FormData>();
   const { signUp, signIn, currentUser } = useAuth();
   const toast = useToast();
+  const router = useRouter();
+  if (currentUser) router.push("/");
 
   const onSubmit = handleSubmit(async ({ email, password }) => {
     try {

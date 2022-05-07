@@ -68,6 +68,7 @@ export const AuthProvider = ({ children }: { children: ReactNode }) => {
   useEffect(() => {
     const refreshToken = async (): Promise<void> => {
       const refreshTokenExists = (await AuthApi.verifyCurrentUser()).data;
+      console.log("refreshing");
 
       if (refreshTokenExists) {
         try {
@@ -77,10 +78,10 @@ export const AuthProvider = ({ children }: { children: ReactNode }) => {
             "Authorization"
           ] = `Bearer ${newAccessToken}`;
 
-          // Refresh tokens every 15 minutes - 5000ms
+          // Refresh tokens every 15 minutes - 5sec
           setTimeout(async () => {
             await refreshToken();
-          }, 900 * 1000 - 5000);
+          }, 15 * 60 * 1000 - 5000);
 
           setAccessToken(newAccessToken);
           setCurrentUser(jwt_decode<AccessTokenPayload>(newAccessToken));
