@@ -5,10 +5,11 @@ import {
   FormErrorMessage,
   Input,
 } from "@chakra-ui/react";
-import type { NextPage } from "next";
+import type { GetStaticProps, NextPage } from "next";
 import { useState } from "react";
 import { useForm } from "react-hook-form";
 import { Display } from "../components/Display";
+import { AuthProps } from "./_app";
 
 interface FormData {
   word: string;
@@ -61,6 +62,14 @@ const Home: NextPage = () => {
       </FormControl>
     </Flex>
   );
+};
+
+export const getStaticProps: GetStaticProps<AuthProps> = () => {
+  return {
+    props: {
+      protected: false,
+    },
+  };
 };
 
 export default Home;

@@ -3,9 +3,7 @@ import jwt_decode from "jwt-decode";
 import { useRouter } from "next/router";
 import {
   createContext,
-  FunctionComponent,
   ReactNode,
-  useCallback,
   useContext,
   useEffect,
   useState,

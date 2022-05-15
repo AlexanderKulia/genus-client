@@ -4,7 +4,7 @@ import Head from "next/head";
 import { QueryClient, QueryClientProvider } from "react-query";
 import { ReactQueryDevtools } from "react-query/devtools";
 import { AuthGuard } from "../components/utils/AuthGuard";
-import { AuthProvider, useAuth } from "../contexts/AuthContext";
+import { AuthProvider } from "../contexts/AuthContext";
 import { NavBar, NAVBAR_HEIGHT } from "../layouts/NavBar";
 
 export interface AuthProps {

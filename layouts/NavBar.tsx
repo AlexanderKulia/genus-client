@@ -11,6 +11,7 @@ import {
 import NextLink from "next/link";
 import { useAuth } from "../contexts/AuthContext";
 
+//1 = only if logged in, 0 = only if not logged in, -1 = either logged in or not
 const links = [
   { name: "Home", path: "/", auth: -1 },
   { name: "History", path: "/history", auth: 1 },
